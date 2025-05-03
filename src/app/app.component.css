@@ -1,0 +1,64 @@
+.app-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.main-content {
+  display: flex;
+  gap: 20px;
+}
+
+.chart-section {
+  flex: 2;
+}
+
+.side-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.controls-container,
+.stats-container {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.measure-selector select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.buttons button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.buttons button:hover {
+  background-color: #45a049;
+}
+
+.stat-item {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-label {
+  font-weight: bold;
+}
+
+.chart-container {
+  position: relative;
+  height: 500px;
+  width: 100%;
+}

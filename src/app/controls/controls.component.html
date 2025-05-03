@@ -1,0 +1,16 @@
+<div class="controls-container">
+  <h2>Medidas de Controle</h2>
+
+  <div class="measure-selector">
+    <select [(ngModel)]="selectedMeasure">
+      <option *ngFor="let measure of measures" [value]="measure.value">
+        {{ measure.name }} - {{ measure.description }}
+      </option>
+    </select>
+  </div>
+
+  <div class="buttons">
+    <button (click)="takeAction()">Aplicar Medida</button>
+    <button (click)="reset()">Reiniciar Simulação</button>
+  </div>
+</div>

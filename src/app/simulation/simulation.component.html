@@ -1,3 +1,16 @@
-<div class="chart-container">
-  <canvas id="simulationChart"></canvas>
+<div class="container">
+  <h1>Pandemus Simulator</h1>
+
+  <div class="chart-container">
+    <canvas id="simulationChart"></canvas>
+  </div>
+
+  <div class="controls">
+    <button (click)="applyMeasure('masks')">Usar Máscaras</button>
+    <button (click)="applyMeasure('distancing')">Distanciamento</button>
+    <button (click)="applyMeasure('lockdown')">Lockdown</button>
+    <button (click)="applyMeasure('vaccination')">Vacinação</button>
+    <button (click)="resetSimulation()" class="reset">Reiniciar</button>
+    <button (click)="goBack()" class="reset">Voltar</button>
+  </div>
 </div>

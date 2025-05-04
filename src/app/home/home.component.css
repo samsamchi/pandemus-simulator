@@ -1,0 +1,58 @@
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.world-map {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.user-input {
+  margin: 30px 0;
+}
+
+.name-input {
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+  width: 300px;
+}
+
+.start-button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.start-button:disabled {
+  background-color: #cccccc;
+}
+
+.virus-options {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.virus-card {
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.virus-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.virus-card img {
+  width: 120px;
+  height: 120px;
+}

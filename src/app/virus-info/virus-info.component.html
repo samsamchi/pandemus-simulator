@@ -1,0 +1,21 @@
+<div class="virus-container">
+  <button (click)="goBack()" class="back-button">Voltar</button>
+
+  <div class="virus-content">
+    <div class="virus-model">
+      <!-- Integração com Three.js ou modelo 3D -->
+      <canvas #virusCanvas id="virusCanvas"></canvas>
+    </div>
+
+    <div class="virus-description">
+      <h2>{{ virusData.name }}</h2>
+      <p>{{ virusData.description }}</p>
+      <h3>Características:</h3>
+      <ul>
+        <li *ngFor="let feature of virusData.features">{{ feature }}</li>
+      </ul>
+      <h3>Métodos de Contágio:</h3>
+      <p>{{ virusData.transmission }}</p>
+    </div>
+  </div>
+</div>

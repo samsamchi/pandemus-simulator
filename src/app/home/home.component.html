@@ -1,0 +1,42 @@
+<div class="home-container">
+  <h1>
+    Ambiente de Simulação para Controle de Contágios, Endemias e Pandemias
+  </h1>
+  <div class="header">
+    <img src="assets/world-map.png" alt="Mapa do Mundo" class="world-map" />
+  </div>
+
+  <div class="user-input">
+    <h2>Identificação da Autoridade de Saúde</h2>
+    <input
+      [(ngModel)]="userName"
+      placeholder="Digite seu nome"
+      class="name-input"
+    />
+    <button
+      (click)="startSimulation()"
+      [disabled]="!userName"
+      class="start-button"
+    >
+      Iniciar Simulação
+    </button>
+  </div>
+
+  <div class="virus-selection">
+    <h2>Selecione um Vírus para Conhecer</h2>
+    <div class="virus-options">
+      <div class="virus-card" (click)="showVirus('covid')">
+        <img src="assets/covid-icon.png" alt="COVID-19" />
+        <h3>SARS-CoV-2</h3>
+      </div>
+      <div class="virus-card" (click)="showVirus('influenza')">
+        <img src="assets/flu-icon.png" alt="Influenza" />
+        <h3>Influenza</h3>
+      </div>
+      <div class="virus-card" (click)="showVirus('ebola')">
+        <img src="assets/ebola-icon.png" alt="Ebola" />
+        <h3>Ebola</h3>
+      </div>
+    </div>
+  </div>
+</div>

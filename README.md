@@ -11,8 +11,7 @@ Esta API permite criar, listar, buscar e deletar simulações de propagação co
 Para iniciar a aplicação, execute:
 
 ```bash
-docker compose up --build -d
-npx prisma migrate dev --name init
+docker compose up --build
 ```
 
 

@@ -3,17 +3,26 @@
 
   <div class="virus-content">
     <div class="virus-model">
-      <!-- Integração com Three.js ou modelo 3D -->
+      <!-- Canvas para renderização do modelo 3D -->
       <canvas #virusCanvas id="virusCanvas"></canvas>
+
+      <!-- Controles manuais (opcional, complementa os OrbitControls) -->
+      <div class="virus-container">
+        <button (click)="toggleAutoRotation()" class="start-button">
+          {{ autoRotate ? "Parar Rotação" : "Iniciar Rotação" }}
+        </button>
+      </div>
     </div>
 
     <div class="virus-description">
       <h2>{{ virusData.name }}</h2>
       <p>{{ virusData.description }}</p>
+
       <h3>Características:</h3>
       <ul>
         <li *ngFor="let feature of virusData.features">{{ feature }}</li>
       </ul>
+
       <h3>Métodos de Contágio:</h3>
       <p>{{ virusData.transmission }}</p>
     </div>

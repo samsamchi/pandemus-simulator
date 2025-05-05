@@ -132,7 +132,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/kaua/dev/pandemus/server/generated/prisma",
+      "value": "/home/kaua/dev/test_pandemus/pandemus-simulator/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -146,11 +146,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/kaua/dev/pandemus/server/prisma/schema.prisma",
+    "sourceFilePath": "/home/kaua/dev/test_pandemus/pandemus-simulator/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",

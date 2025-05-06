@@ -2,6 +2,62 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 
+interface Virus {
+  name: string;
+  infectionRate: number;
+  recoveryRate: number;
+  mortalityRate: number;
+  measuresEffect: {
+    máscara: { infection: number; recovery: number };
+    distanciamento: { infection: number; recovery: number };
+    lockdown: { infection: number; recovery: number };
+    vacinação: { infection: number; recovery: number };
+  };
+  maxYAxis: number; // Valor máximo do eixo Y para o gráfico
+}
+
+const VIRUS_TYPES: { [key: string]: Virus } = {
+  COVID19: {
+    name: 'COVID-19',
+    infectionRate: 0.3,
+    recoveryRate: 0.1,
+    mortalityRate: 0.02,
+    maxYAxis: 500000,
+    measuresEffect: {
+      máscara: { infection: 0.7, recovery: 1.0 },
+      distanciamento: { infection: 0.6, recovery: 1.0 },
+      lockdown: { infection: 0.3, recovery: 1.0 },
+      vacinação: { infection: 0.5, recovery: 1.5 },
+    },
+  },
+  INFLUENZA: {
+    name: 'Influenza',
+    infectionRate: 0.2,
+    recoveryRate: 0.15,
+    mortalityRate: 0.001,
+    maxYAxis: 300000,
+    measuresEffect: {
+      máscara: { infection: 0.5, recovery: 1.0 },
+      distanciamento: { infection: 0.8, recovery: 1.0 },
+      lockdown: { infection: 0.7, recovery: 1.0 },
+      vacinação: { infection: 0.3, recovery: 1.8 },
+    },
+  },
+  EBOLA: {
+    name: 'Ebola',
+    infectionRate: 0.4,
+    recoveryRate: 0.05,
+    mortalityRate: 0.5,
+    maxYAxis: 1000000,
+    measuresEffect: {
+      máscara: { infection: 0.9, recovery: 1.0 },
+      distanciamento: { infection: 0.7, recovery: 1.0 },
+      lockdown: { infection: 0.6, recovery: 1.0 },
+      vacinação: { infection: 0.2, recovery: 2.0 },
+    },
+  },
+};
+
 @Component({
   selector: 'app-simulation',
   templateUrl: './simulation.component.html',
@@ -10,7 +66,11 @@ import { Chart, registerables } from 'chart.js';
 export class SimulationComponent implements OnInit {
   private chart!: Chart;
 
-  // Dados da simulação
+  VIRUS_TYPES = VIRUS_TYPES;
+  selectedVirus: Virus = VIRUS_TYPES['COVID19'];
+  virusKeys = Object.keys(VIRUS_TYPES);
+  currentMeasure: string = 'Nenhuma';
+
   simulationData = {
     days: 100,
     infected: [] as number[],
@@ -20,24 +80,14 @@ export class SimulationComponent implements OnInit {
     population: [] as number[],
   };
 
-  // Parâmetros da simulação
   initialPopulation = 1000000;
   initialInfected = 10;
   infectionRate = 0.3;
   recoveryRate = 0.1;
   mortalityRate = 0.02;
 
-  // Fatores atuais
   currentInfectionFactor = 1.0;
   currentRecoveryFactor = 1.0;
-
-  // Efeitos das medidas
-  measures = {
-    masks: { infection: 0.7, recovery: 1.0 },
-    distancing: { infection: 0.5, recovery: 1.0 },
-    lockdown: { infection: 0.2, recovery: 1.0 },
-    vaccination: { infection: 1.0, recovery: 1.4 },
-  };
 
   constructor(private route: ActivatedRoute, private router: Router) {
     Chart.register(...registerables);
@@ -89,14 +139,26 @@ export class SimulationComponent implements OnInit {
         scales: {
           y: {
             beginAtZero: true,
+            max: this.selectedVirus.maxYAxis,
           },
         },
       },
     });
   }
 
+  selectVirus(virusKey: string) {
+    this.selectedVirus = VIRUS_TYPES[virusKey];
+    this.resetSimulation();
+  }
+
   resetSimulation() {
-    // Inicializa arrays com zeros
+    this.infectionRate = this.selectedVirus.infectionRate;
+    this.recoveryRate = this.selectedVirus.recoveryRate;
+    this.mortalityRate = this.selectedVirus.mortalityRate;
+    this.currentInfectionFactor = 1.0;
+    this.currentRecoveryFactor = 1.0;
+    this.currentMeasure = 'Nenhuma';
+
     this.simulationData = {
       days: 100,
       infected: Array(100).fill(0),
@@ -107,21 +169,15 @@ export class SimulationComponent implements OnInit {
       ),
       population: Array(100).fill(this.initialPopulation),
     };
-
-    // Configura casos iniciais
     this.simulationData.infected[0] = this.initialInfected;
-    this.currentInfectionFactor = 1.0;
-    this.currentRecoveryFactor = 1.0;
-
     this.runSimulation();
   }
 
-  applyMeasure(measure: keyof typeof this.measures) {
-    // Aplica os fatores da medida selecionada
-    this.currentInfectionFactor *= this.measures[measure].infection;
-    this.currentRecoveryFactor *= this.measures[measure].recovery;
-
-    // Roda a simulação com os novos fatores
+  applyMeasure(measure: keyof typeof this.selectedVirus.measuresEffect) {
+    const effect = this.selectedVirus.measuresEffect[measure];
+    this.currentInfectionFactor = effect.infection;
+    this.currentRecoveryFactor = effect.recovery;
+    this.currentMeasure = measure.charAt(0).toUpperCase() + measure.slice(1);
     this.runSimulation();
   }
 
@@ -130,7 +186,6 @@ export class SimulationComponent implements OnInit {
       const prevInfected = this.simulationData.infected[day - 1];
       const prevSusceptible = this.simulationData.susceptible[day - 1];
 
-      // Calcula novos casos
       const newInfected = Math.min(
         prevSusceptible,
         Math.floor(
@@ -146,7 +201,6 @@ export class SimulationComponent implements OnInit {
       );
       const newDead = Math.floor(prevInfected * this.mortalityRate);
 
-      // Atualiza os dados
       this.simulationData.infected[day] =
         prevInfected + newInfected - newRecovered - newDead;
       this.simulationData.recovered[day] =
@@ -156,7 +210,6 @@ export class SimulationComponent implements OnInit {
       this.simulationData.susceptible[day] = prevSusceptible - newInfected;
     }
 
-    // Atualiza o gráfico
     this.updateChart();
   }
 
@@ -165,9 +218,11 @@ export class SimulationComponent implements OnInit {
       this.chart.data.datasets[0].data = this.simulationData.infected;
       this.chart.data.datasets[1].data = this.simulationData.dead;
       this.chart.data.datasets[2].data = this.simulationData.recovered;
+      this.chart.options.scales!['y']!.max = this.selectedVirus.maxYAxis;
       this.chart.update();
     }
   }
+
   goBack() {
     this.router.navigate(['/home']);
   }

@@ -1,36 +1,62 @@
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-.chart-container {
-  height: 400px;
-  margin: 20px 0;
+.virus-selection {
+  margin-bottom: 20px;
 }
 
-.controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-button {
-  padding: 10px 15px;
-  background: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
+.virus-selection button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
   cursor: pointer;
 }
 
-button:hover {
-  opacity: 0.9;
+.virus-selection button.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.info-panel {
+  background-color: #f8f8f8;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.chart-container {
+  height: 400px;
+  margin-bottom: 20px;
+}
+
+.measures {
+  margin-bottom: 20px;
+}
+
+.measures button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .reset {
-  background: #f44336;
-  margin-left: auto;
+  background-color: #f44336 !important;
+}
+
+.back-button {
+  display: block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
 }

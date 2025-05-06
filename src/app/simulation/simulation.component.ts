@@ -19,41 +19,41 @@ interface Virus {
 const VIRUS_TYPES: { [key: string]: Virus } = {
   COVID19: {
     name: 'COVID-19',
-    infectionRate: 0.3,
-    recoveryRate: 0.1,
-    mortalityRate: 0.02,
-    maxYAxis: 500000,
+    infectionRate: 0.9, // alta taxa de transmissão
+    recoveryRate: 0.07, // recuperação relativamente lenta
+    mortalityRate: 0.03, // taxa de mortalidade média (~3%)
+    maxYAxis: 1000000,
     measuresEffect: {
-      máscara: { infection: 0.7, recovery: 1.0 },
-      distanciamento: { infection: 0.6, recovery: 1.0 },
-      lockdown: { infection: 0.3, recovery: 1.0 },
-      vacinação: { infection: 0.5, recovery: 1.5 },
+      máscara: { infection: 0.5, recovery: 1.2 }, // boa para evitar contágio
+      distanciamento: { infection: 0.4, recovery: 1.1 }, // muito útil
+      lockdown: { infection: 0.3, recovery: 1.3 }, // altamente eficaz no início
+      vacinação: { infection: 0.1, recovery: 2.0 }, // principal ferramenta
     },
   },
   INFLUENZA: {
     name: 'Influenza',
-    infectionRate: 0.2,
-    recoveryRate: 0.15,
-    mortalityRate: 0.001,
-    maxYAxis: 300000,
+    infectionRate: 0.4, // taxa de transmissão moderada
+    recoveryRate: 0.25, // boa taxa de recuperação
+    mortalityRate: 0.001, // mortalidade muito baixa (~0.1%)
+    maxYAxis: 1000000,
     measuresEffect: {
-      máscara: { infection: 0.5, recovery: 1.0 },
-      distanciamento: { infection: 0.8, recovery: 1.0 },
-      lockdown: { infection: 0.7, recovery: 1.0 },
-      vacinação: { infection: 0.3, recovery: 1.8 },
+      máscara: { infection: 0.6, recovery: 1.0 }, // eficiente na prevenção
+      distanciamento: { infection: 0.7, recovery: 1.0 }, // efeito moderado
+      lockdown: { infection: 0.6, recovery: 1.0 }, // ajuda um pouco
+      vacinação: { infection: 0.3, recovery: 1.5 }, // muito eficaz
     },
   },
   EBOLA: {
     name: 'Ebola',
-    infectionRate: 0.4,
-    recoveryRate: 0.05,
-    mortalityRate: 0.5,
+    infectionRate: 0.7, // muito contagioso em surtos locais
+    recoveryRate: 0.1, // baixa taxa de recuperação (até 40% sobrevive)
+    mortalityRate: 0.5, // mortalidade extremamente alta (~50%)
     maxYAxis: 1000000,
     measuresEffect: {
-      máscara: { infection: 0.9, recovery: 1.0 },
-      distanciamento: { infection: 0.7, recovery: 1.0 },
-      lockdown: { infection: 0.6, recovery: 1.0 },
-      vacinação: { infection: 0.2, recovery: 2.0 },
+      máscara: { infection: 0.8, recovery: 1.0 }, // pouco efeito direto
+      distanciamento: { infection: 0.7, recovery: 1.0 }, // necessário para reduzir contato
+      lockdown: { infection: 0.5, recovery: 1.2 }, // útil para isolar áreas
+      vacinação: { infection: 0.2, recovery: 2.0 }, // mais impactante
     },
   },
 };
@@ -88,6 +88,8 @@ export class SimulationComponent implements OnInit {
 
   currentInfectionFactor = 1.0;
   currentRecoveryFactor = 1.0;
+
+  chartData: any; // Declare chartData property
 
   constructor(private route: ActivatedRoute, private router: Router) {
     Chart.register(...registerables);
@@ -148,7 +150,44 @@ export class SimulationComponent implements OnInit {
 
   selectVirus(virusKey: string) {
     this.selectedVirus = VIRUS_TYPES[virusKey];
-    this.resetSimulation();
+    this.updateChartData();
+  }
+
+  updateChartData() {
+    if (!this.selectedVirus) return;
+
+    // Exemplo de estrutura de dados do gráfico
+    const { infectionRate, recoveryRate, mortalityRate } = this.selectedVirus;
+
+    this.chartData = {
+      labels: ['Infectados', 'Recuperados', 'Mortos'],
+      datasets: [
+        {
+          label: 'Infectados',
+          data: [infectionRate * 100, recoveryRate * 100, mortalityRate * 100],
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1,
+        },
+        {
+          label: 'Recuperados',
+          data: [recoveryRate * 100, recoveryRate * 100, mortalityRate * 100],
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+        },
+        {
+          label: 'Mortos',
+          data: [mortalityRate * 100, recoveryRate * 100, mortalityRate * 100],
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    // Atualizar o gráfico
+    this.updateChart();
   }
 
   resetSimulation() {

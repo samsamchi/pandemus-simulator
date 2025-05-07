@@ -1,3 +1,9 @@
+<!-- virus-info.component.html -->
+<!-- Plano de fundo com o mapa-múndi -->
+<div class="background-wrapper">
+  <img src="assets/world-map.png" alt="Mapa do Mundo" class="background-map" />
+</div>
+
 <div class="virus-container">
   <button (click)="goBack()" class="back-button">Voltar</button>
 
@@ -6,8 +12,8 @@
       <!-- Canvas para renderização do modelo 3D -->
       <canvas #virusCanvas id="virusCanvas"></canvas>
 
-      <!-- Controles manuais (opcional, complementa os OrbitControls) -->
-      <div class="virus-container">
+      <!-- Controles manuais -->
+      <div class="controls">
         <button (click)="toggleAutoRotation()" class="start-button">
           {{ autoRotate ? "Parar Rotação" : "Iniciar Rotação" }}
         </button>

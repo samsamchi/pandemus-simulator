@@ -3,12 +3,41 @@
   margin: 0 auto;
   padding: 20px;
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
-.world-map {
-  max-width: 100%;
-  height: auto;
+/* Background do mapa-múndi */
+.background-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.background-map {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2; /* Ajuste a opacidade conforme necessário */
+}
+
+/* Estilos para melhorar a legibilidade do conteúdo sobre o fundo */
+.content-panel {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  padding: 20px;
   margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #000000;
+  font-size: 28px;
+  margin-bottom: 30px;
 }
 
 .user-input {
@@ -20,6 +49,8 @@
   font-size: 16px;
   margin-right: 10px;
   width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 .start-button {
@@ -27,7 +58,9 @@
   background-color: #4caf50;
   color: white;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .start-button:disabled {
@@ -38,6 +71,7 @@
   display: flex;
   justify-content: space-around;
   margin-top: 30px;
+  flex-wrap: wrap;
 }
 
 .virus-card {
@@ -45,11 +79,15 @@
   padding: 15px;
   border-radius: 8px;
   transition: transform 0.3s;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  width: 180px;
 }
 
 .virus-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .virus-card img {
